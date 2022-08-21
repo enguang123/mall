@@ -30,6 +30,7 @@
   import FeatureView from './childComps/FeatureView.vue'
 
   import {getMultiData, getProductData} from '../../network/home.js'
+  import {debounce} from '../../common/utils.js'
 
 
   export default {
@@ -63,15 +64,30 @@
       }
     },
     created(){
+      //请求多个数据
       this.getMultiData();
+
+      //请求商品数据
       this.getProductData('pop');
       this.getProductData('sell');
       this.getProductData('new');
+      
+    },
+    mounted(){
+      const refresh = debounce(this.$refs.scroll.refresh,200)
+
+      //监听商品组件中 图片加载完成 better-scroll在计算高度时，可能在图片未加载完成之前得到计算的高度，可能出现卡顿现象
+      this.$bus.$on('imgLoad', ()=>{     //事件总线的使用
+        refresh();
+        // console.log("def")
+      })
+
     },
     methods: {
       /*
       事件监听相关方法
       */
+   
       /*类型*/
       tabClick(index){
         switch(index) {
@@ -98,9 +114,9 @@
           this.isShowBackTop = false;
         }
       },
-      /*上拉加载更多*/
       loadMore(){
-        this.getProductData(this.currentType)
+        console.log("上拉加载");
+        this.getProductData(this.currentType);
       },
       /*
       网络请求相关方法
@@ -117,7 +133,9 @@
           this.goods[type].list.push(...res.data.list);
           this.goods[type].page += 1;
 
+          //完成上拉加载
           this.$refs.scroll.finishPullUp();
+
         })
       }
     }
