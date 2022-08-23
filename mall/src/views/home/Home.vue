@@ -74,13 +74,14 @@
       }
     },
     activated(){
-      // console.log(this.saveY)
+      console.log(this.saveY)
       this.$refs.scroll.scrollTo(0, this.saveY, 0)
       this.$refs.scroll.refresh()
     },
     deactivated(){
+      //保存当前位置
       this.saveY = this.$refs.scroll.getScrollY()
-      // console.log(this.saveY)
+      console.log(this.saveY)
     },
     created(){
       //请求多个数据

@@ -32,7 +32,7 @@
     methods: {
        titleClick(index) {
         this.currentIndex = index
-        // this.$emit('tabClick', index)
+        this.$emit('tabClick', index)
       },
       backClick(){
         this.$router.back()
