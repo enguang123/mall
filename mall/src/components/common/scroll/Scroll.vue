@@ -52,7 +52,8 @@
     },
     methods: {
       scrollTo(x, y, time=300){
-        this.scroll && this.scroll.scrollTo(x, y, time)
+        this.scroll && this.scroll.scrollTo(x, y, time);
+        // console.log("dfewdfew");
       },
       finishPullUp(){
         this.scroll.finishPullUp();

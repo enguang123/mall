@@ -11,6 +11,7 @@
       <GoodsList ref="recommend" :goods="recommends"/> 
     </Scroll>
     <DetailBottomBar @addToCart="addToCart"/>
+    <Toast ref="toast"/>
     <BackTop @click.native="Backtop" v-show="isShowBackTop"/>
   </div>
 </template>
@@ -32,6 +33,8 @@
 
   import {backTopMixin} from '../../common/mixin.js'
   // import {TOP_DISTANCE} from '../../common/const.js'
+  import { mapActions } from 'vuex'
+  import Toast from '../../components/common/toast/Toast.vue'
 
   export default {
     name: "Detail",
@@ -46,6 +49,7 @@
       GoodsList,
       DetailBottomBar,
       Scroll,
+      Toast
     },
     mixins: [backTopMixin],
     data() {
@@ -118,6 +122,7 @@
       })
     },
     methods: {
+      ...mapActions(['addCart']),
       imageLoad() {
         this.$refs.scroll.refresh();
 
@@ -169,7 +174,14 @@
 
         //将商品添加到购物车
         // this.$store.commit('addCart',product);
-        this.$store.dispatch('addCart',product);
+        //方式二
+        // this.$store.dispatch('addCart',product).then(res => {
+        //   console.log(res);
+        // })
+        //方式三 通过vuex映射
+        this.addCart(product).then(res => {
+          this.$toast({message: res, duration: 2000})
+        })
       }
     }
   }
