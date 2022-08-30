@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import Fastclick from 'fastclick'
+
 import toast from './components/common/toast/index'
 
 Vue.config.productionTip = false
@@ -11,6 +13,8 @@ Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
 
 Vue.use(toast)
+//解决移动端300ms延迟
+Fastclick.attach(document.body)
 
 new Vue({
   router,
